@@ -34,8 +34,8 @@ public class Main {
 
     
     void run() throws InterruptedException{
-        Agent aiAgent=new Agent(0.7, 0.001, 20, 50);
-        aiAgent.setMap(map15x10,15,10);        
+        Agent aiAgent=new Agent(0.7, 0.001, 20, 100);
+        aiAgent.setMap(map15x10b,15,10);        
         RenderWindow renderWindow=new RenderWindow(null, false,aiAgent);
         renderWindow.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -49,7 +49,7 @@ public class Main {
         while (loopOn>0){
             aiAgent.Epoch();
             renderWindow.redrawBoard(aiAgent);
-            Thread.sleep(20);
+            Thread.sleep(10);
         }
                 
     }

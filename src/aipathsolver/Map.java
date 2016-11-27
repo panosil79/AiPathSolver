@@ -6,7 +6,6 @@ package aipathsolver;
 
 import java.util.ArrayList;
 
-
 public class Map {
    
 public int map[][];
@@ -60,6 +59,7 @@ GenomePerformance TestRoute(ArrayList<Integer> vecPath){
         for (int x=0;x<mapWidth;x++)
             testMap[y][x]=map[y][x];
     
+    int invalidSteps=0;
     result.validSteps=0;
     result.totalSteps=0;
     for (int x=0;x<vecPath.size();x++){        
@@ -70,25 +70,25 @@ GenomePerformance TestRoute(ArrayList<Integer> vecPath){
                 if ( result.finalX > 0 && testMap[result.finalY][result.finalX-1]!=1 ){
                     result.finalX--;
                     result.validSteps++;
-                }
+                } else invalidSteps++;
                 break;
             case 2: // right
                 if ( result.finalX < mapWidth-1 && testMap[result.finalY][result.finalX+1]!=1 ){
                     result.finalX++;
                     result.validSteps++;
-                }
+                } else invalidSteps++;
                 break;
             case 1: // up
                 if ( result.finalY>0 && testMap[result.finalY-1][result.finalX]!=1 ){
                     result.finalY--;
                     result.validSteps++;
-                }
+                } else invalidSteps++;
                 break;
             case 0: // down
                 if ( result.finalY<mapHeight-1 && testMap[result.finalY+1][result.finalX]!=1 ){
                     result.finalY++;
                     result.validSteps++;
-                }
+                } else invalidSteps++;
                 break;                                
         }
         
@@ -103,7 +103,11 @@ GenomePerformance TestRoute(ArrayList<Integer> vecPath){
     
     double totalDistance=Math.sqrt(Math.pow(entryX-exitX,2)+Math.pow(entryY-exitY,2));
     double agentDistance=Math.sqrt(Math.pow(result.finalX-exitX,2)+Math.pow(result.finalY-exitY,2));
-    result.fitness=1-(agentDistance/totalDistance);
+    
+    if (invalidSteps>0){
+        result.fitness=1d/invalidSteps;
+    } else
+        result.fitness=1-(agentDistance/totalDistance);    
     
     return(result);
 }

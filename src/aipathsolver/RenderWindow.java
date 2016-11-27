@@ -82,7 +82,8 @@ public class RenderWindow extends javax.swing.JDialog {
                     g.fillRect(0,40+map.mapHeight*MAP_BLOCK_HEIGHT,400+20+map.mapWidth*MAP_BLOCK_WIDTH, 50);
                     g.setColor(Color.black);
                     g.drawString("Generation "+String.valueOf(generation),20,60+map.mapHeight*MAP_BLOCK_HEIGHT);
-                    g.drawString("Best genome "+ourAgent.bestGenome.toString(),20,80+map.mapHeight*MAP_BLOCK_HEIGHT);
+                    if (ourAgent.bestGenome!=null)
+                        g.drawString("Best genome "+ourAgent.bestGenome.toString(),20,80+map.mapHeight*MAP_BLOCK_HEIGHT);
                     if (lastMoves!=null)
                         drawPath(g);                                   
                 }

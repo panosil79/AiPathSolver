@@ -74,11 +74,11 @@ void UpdateFitnessScores(){
         Genome genome=genomesList.get(x); 
         GenomePerformance results=worldMap.TestRoute(Decode(genome.geneBits));
         genome.performance.fitness=results.fitness;
-        totalFitnessScore+=genome.performance.fitness;
+        totalFitnessScore+=genome.performance.fitness;        
         if (genome.performance.fitness>bestFitnessScore){
             bestFitnessScore=genome.performance.fitness;
             bestGenome=genome.makeClone();
-            //System.out.printf("Best fitnes found F=%f S=%d Pos=%dx%d in generation %d with genome %s \n",genome.dFitness,results.steps,results.x,results.y,generation,genome.geneBits.toString());
+            System.out.printf("Best fitnes found F=%f S=%d Pos=%dx%d in generation %d with genome %s \n",genome.performance.fitness,results.totalSteps,results.finalX,results.finalY,generation,genome.geneBits.toString());
             }
         }
 }
