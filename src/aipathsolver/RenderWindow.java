@@ -1,10 +1,13 @@
 /*
  *  (C)2016 Panos Iliopoulos - All Rights Reserved
  */
+
 package aipathsolver;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 
 public class RenderWindow extends javax.swing.JDialog {
@@ -51,12 +54,12 @@ public class RenderWindow extends javax.swing.JDialog {
     }
 
     @Override
-    public void paint(Graphics g) {
-
-       super.paint(g);
+    public void paint(Graphics gSystem) {
        if (map!=null){
-            
-            setSize(400+20+map.mapWidth*MAP_BLOCK_WIDTH,100+map.mapHeight*MAP_BLOCK_HEIGHT);
+            Image doubleBufferImage=createImage (this.getSize().width, this.getSize().height);
+            Graphics g=doubleBufferImage.getGraphics();                      
+            setSize(getInsets().left+getInsets().right+map.mapWidth*MAP_BLOCK_WIDTH,getInsets().top+getInsets().bottom+map.mapHeight*MAP_BLOCK_HEIGHT+40);
+            //Draw blocks            
             for (int y=0;y<map.mapHeight;y++)
                 for (int x=0;x<map.mapWidth;x++){
                     int tile=map.map[y][x];
@@ -73,21 +76,24 @@ public class RenderWindow extends javax.swing.JDialog {
                         case 0:
                             g.setColor(Color.white);
                             break;
-                    }                
-                                        
-                    g.fillRect(11+x*MAP_BLOCK_WIDTH ,40+y*MAP_BLOCK_WIDTH,MAP_BLOCK_WIDTH-2,MAP_BLOCK_HEIGHT-2);
-                    g.setColor(Color.black);
-                    g.drawRect(11+x*MAP_BLOCK_WIDTH ,40+y*MAP_BLOCK_WIDTH,MAP_BLOCK_WIDTH-2,MAP_BLOCK_HEIGHT-2);                    
-                    g.setColor(Color.white);
-                    g.fillRect(0,40+map.mapHeight*MAP_BLOCK_HEIGHT,400+20+map.mapWidth*MAP_BLOCK_WIDTH, 50);
-                    g.setColor(Color.black);
-                    g.drawString("Generation "+String.valueOf(generation),20,60+map.mapHeight*MAP_BLOCK_HEIGHT);
-                    if (ourAgent.bestGenome!=null)
-                        g.drawString("Best genome "+ourAgent.bestGenome.toString(),20,80+map.mapHeight*MAP_BLOCK_HEIGHT);
-                    if (lastMoves!=null)
-                        drawPath(g);                                   
+                    }
+                g.fillRect(x*MAP_BLOCK_WIDTH ,y*MAP_BLOCK_WIDTH,MAP_BLOCK_WIDTH,MAP_BLOCK_HEIGHT);
+                //Draw borders
+                g.setColor(Color.black);
+                g.drawRect(x*MAP_BLOCK_WIDTH ,y*MAP_BLOCK_WIDTH,MAP_BLOCK_WIDTH,MAP_BLOCK_HEIGHT);            
                 }
-        }
+            //Print Generation and best genome
+            g.setColor(Color.black);            
+            g.drawString("Generation "+String.valueOf(generation),5,20+map.mapHeight*MAP_BLOCK_HEIGHT);
+            //g.setFont(new Font("Default",Font.PLAIN,8));
+            if (ourAgent.bestGenome!=null)
+                g.drawString(ourAgent.bestGenome.toString(),5,35+map.mapHeight*MAP_BLOCK_HEIGHT);
+            //Draw best path
+            if (lastMoves!=null)
+                drawPath(g);                                                   
+            //Dump double buffer
+            gSystem.drawImage(doubleBufferImage,getInsets().left,getInsets().top,null);
+       }
     }
 
     
@@ -130,12 +136,11 @@ public class RenderWindow extends javax.swing.JDialog {
                 }
                 break;                                
         }
-        
         g.setColor(Color.black);
-        g.fillRect(11+agentX*MAP_BLOCK_WIDTH,41+agentY*MAP_BLOCK_WIDTH ,MAP_BLOCK_WIDTH-2,MAP_BLOCK_HEIGHT-2);        
+        g.fillRect(agentX*MAP_BLOCK_WIDTH,agentY*MAP_BLOCK_WIDTH ,MAP_BLOCK_WIDTH,MAP_BLOCK_HEIGHT);        
         g.setColor(Color.white);
-        g.drawRect(11+agentX*MAP_BLOCK_WIDTH,41+agentY*MAP_BLOCK_WIDTH ,MAP_BLOCK_WIDTH-2,MAP_BLOCK_HEIGHT-2);
-        g.drawString(steps.toString(),20+agentX*MAP_BLOCK_WIDTH ,60+agentY*MAP_BLOCK_WIDTH);        
+        g.drawRect(agentX*MAP_BLOCK_WIDTH,agentY*MAP_BLOCK_WIDTH ,MAP_BLOCK_WIDTH,MAP_BLOCK_HEIGHT);
+        g.drawString(steps.toString(),5+agentX*MAP_BLOCK_WIDTH ,15+agentY*MAP_BLOCK_WIDTH);        
         if (agentX==map.exitX && agentY==map.exitY)
             return;                
         }
@@ -159,11 +164,11 @@ public class RenderWindow extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 559, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 368, Short.MAX_VALUE)
         );
 
         pack();

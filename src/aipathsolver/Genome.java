@@ -6,7 +6,6 @@ package aipathsolver;
 
 import java.util.ArrayList;
 
-
 public class Genome {
     
     ArrayList<Integer> geneBits;
@@ -36,13 +35,11 @@ public class Genome {
    @Override
    public String toString(){
        String result=new String();
-       result+="[";
        for (int x=0;x<geneBits.size();x++)
            if (geneBits.get(x)==0)
-               result+='0';
+               result+='.';
             else
-               result+='1';
-       result+="]";
+               result+='|';
        return(result);
    }
     

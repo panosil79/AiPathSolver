@@ -1,10 +1,10 @@
 /*
  *  (C)2016 Panos Iliopoulos - All Rights Reserved
  */
+
 package aipathsolver;
 
 public class Main {
-    
     
     public static int loopOn=1;
 
@@ -49,7 +49,7 @@ public class Main {
         while (loopOn>0){
             aiAgent.Epoch();
             renderWindow.redrawBoard(aiAgent);
-            Thread.sleep(10);
+            Thread.sleep(50);
         }
                 
     }

@@ -16,7 +16,6 @@ public int entryY=0;
 public int exitX=0;
 public int exitY=0;
 
-
 Map(){}
 
 Map(int aMap[],int width,int height){

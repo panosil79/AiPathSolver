@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class Agent {
 
-
 ArrayList<Genome> genomesList;
 int populationSize=0;
 double crossoverRate=0;
