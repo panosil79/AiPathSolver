@@ -58,7 +58,7 @@ public class RenderWindow extends javax.swing.JDialog {
        if (map!=null){
             Image doubleBufferImage=createImage (this.getSize().width, this.getSize().height);
             Graphics g=doubleBufferImage.getGraphics();                      
-            setSize(getInsets().left+getInsets().right+map.mapWidth*MAP_BLOCK_WIDTH,getInsets().top+getInsets().bottom+map.mapHeight*MAP_BLOCK_HEIGHT+40);
+            setSize(getInsets().left+getInsets().right+map.mapWidth*MAP_BLOCK_WIDTH,180+getInsets().top+getInsets().bottom+(map.mapHeight*MAP_BLOCK_HEIGHT)+(ourAgent.populationSize*10));
             //Draw blocks            
             for (int y=0;y<map.mapHeight;y++)
                 for (int x=0;x<map.mapWidth;x++){
@@ -88,6 +88,13 @@ public class RenderWindow extends javax.swing.JDialog {
             //g.setFont(new Font("Default",Font.PLAIN,8));
             if (ourAgent.bestGenome!=null)
                 g.drawString(ourAgent.bestGenome.toString(),5,35+map.mapHeight*MAP_BLOCK_HEIGHT);
+            
+            //Draw genome pool
+            g.drawString("Genome pool",5,50+map.mapHeight*MAP_BLOCK_HEIGHT);
+            for (int x=0;x<ourAgent.genomesList.size();x++){
+                g.drawString(ourAgent.genomesList.get(x).toString(),5,65+(x*15)+map.mapHeight*MAP_BLOCK_HEIGHT);
+            }
+            
             //Draw best path
             if (lastMoves!=null)
                 drawPath(g);                                                   
