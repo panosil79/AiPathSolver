@@ -1,2 +1,2 @@
 # AiPathSolver
-Simple GA path solver
+Simple Genetic Algorithm path solver
